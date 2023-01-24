@@ -23,28 +23,31 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.android.marsphotos.databinding.FragmentOverviewBinding
+import com.example.android.marsphotos.databinding.GridViewItemBinding
 
 /**
- * This fragment shows the the status of the Mars photos web services transaction.
+ * Este fragmento mostra o status da transação de serviços da Web de fotos da Mars.
  */
 class OverviewFragment : Fragment() {
 
     private val viewModel: OverviewViewModel by viewModels()
 
     /**
-     * Inflates the layout with Data Binding, sets its lifecycle owner to the OverviewFragment
-     * to enable Data Binding to observe LiveData, and sets up the RecyclerView with an adapter.
+     * Infla o layout com Data Binding, define seu proprietário do ciclo de vida para o OverviewFragment
+     * para permitir que o Data Binding observe o LiveData e configure o RecyclerView com um adaptador.
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentOverviewBinding.inflate(inflater)
+        //val binding = FragmentOverviewBinding.inflate(inflater)
 
-        // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
+        // Permite que Data Binding observe LiveData com o ciclo de vida deste fragmento
+        val binding = GridViewItemBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        // Giving the binding access to the OverviewViewModel
+
+        // Dando o acesso de ligação ao OverviewViewModel
         binding.viewModel = viewModel
 
         return binding.root

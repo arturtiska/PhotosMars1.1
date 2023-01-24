@@ -19,29 +19,38 @@ package com.example.android.marsphotos.overview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.android.marsphotos.network.MarsApi
+import com.example.android.marsphotos.network.MarsPhotos
+import kotlinx.coroutines.launch
 
-/**
- * The [ViewModel] that is attached to the [OverviewFragment].
- */
 class OverviewViewModel : ViewModel() {
 
-    // The internal MutableLiveData that stores the status of the most recent request
+    // O MutableLiveData interno que armazena o status da requisição mais recente
     private val _status = MutableLiveData<String>()
 
-    // The external immutable LiveData for the request status
+    // O LiveData imutável externo para o status da solicitação
     val status: LiveData<String> = _status
-    /**
-     * Call getMarsPhotos() on init so we can display status immediately.
-     */
+
+    private val _photos = MutableLiveData<MarsPhotos>()
+    val photos: LiveData<MarsPhotos> = _photos
     init {
         getMarsPhotos()
     }
 
     /**
-     * Gets Mars photos information from the Mars API Retrofit service and updates the
-     * [MarsPhoto] [List] [LiveData].
+     * Obtém informações de fotos de Marte do serviço Mars API Retrofit e atualiza o
+     *
      */
     private fun getMarsPhotos() {
-        _status.value = "Set the Mars API status response here!"
+        viewModelScope.launch {
+            try {
+                _photos.value = MarsApi.retrofitService.getPhotos()[0]
+                _status.value ="First Mars image URL : ${_photos.value!!.imgSrcUrl}"
+            } catch (e: Exception){
+                _status.value = "Falhou ${e.message}"
+            }
+
+        }
     }
 }
