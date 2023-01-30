@@ -23,7 +23,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.android.marsphotos.databinding.FragmentOverviewBinding
-import com.example.android.marsphotos.databinding.GridViewItemBinding
 
 /**
  * Este fragmento mostra o status da transação de serviços da Web de fotos da Mars.
@@ -43,12 +42,14 @@ class OverviewFragment : Fragment() {
         //val binding = FragmentOverviewBinding.inflate(inflater)
 
         // Permite que Data Binding observe LiveData com o ciclo de vida deste fragmento
-        val binding = GridViewItemBinding.inflate(inflater)
+        val binding = FragmentOverviewBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
 
         // Dando o acesso de ligação ao OverviewViewModel
         binding.viewModel = viewModel
+
+        binding.photosGrid.adapter = PhotoGridAdapter()
 
         return binding.root
     }
